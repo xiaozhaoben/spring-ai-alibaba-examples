@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author yuluo
  * @author <a href="mailto:yuluo08290126@gmail.com">yuluo</a>
@@ -106,6 +108,18 @@ public class HelloworldController {
 //								.param(CHAT_MEMORY_CONVERSATION_ID_KEY, id)
 //								.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100)
 				).stream().content();
+	}
+
+	record ActionFilms(String actor, List<String> movies) {
+
+	}
+
+	@GetMapping("/simle/movie")
+	public ActionFilms movies(@RequestParam(value = "input") String input) {
+		return dashScopeChatClient.prompt()
+				.user(input)
+				.call()
+				.entity(ActionFilms.class);
 	}
 
 }
